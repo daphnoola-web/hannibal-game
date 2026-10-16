@@ -1,1 +1,7 @@
 name,author,source_url,download_date,license,required_credit,modifications,used_where
+CANDIDATE: Poly Haven HDRIs/textures/models,Poly Haven contributors,https://polyhaven.com,not downloaded,CC0 (verified at https://polyhaven.com/license),none (appreciated),none,sky/ground/wall textures
+CANDIDATE: Quaternius packs,Quaternius,https://quaternius.com,not downloaded,CC0 (per site; re-verify per pack),none,none,placeholder characters/props
+CANDIDATE: Kenney assets,Kenney,https://kenney.nl,not downloaded,CC0 (per site; re-verify per pack),none,none,props
+CANDIDATE: Meshy free-plan output,Meshy AI,https://www.meshy.ai,not generated,CC BY 4.0 on free plan (secondary sources; verify on meshy.ai),Credit Meshy,TBD,Hannibal / building (Gate B)
+CANDIDATE: Tripo free-plan output,Tripo AI,https://www.tripo3d.ai,not generated,CC BY 4.0 on free plan (secondary sources; verify),Credit Tripo and note modifications,TBD,Gate B alternative
+CANDIDATE: Mixamo animations,Adobe,https://www.mixamo.com,not downloaded,Adobe terms (free; verify redistribution in games),TBD,TBD,idle/walk/run
