@@ -2,6 +2,12 @@
 
 Newest first. Each entry: date, decision, why, evidence.
 
+## 2026-10-17 — Gate A code done, awaiting measurement and deploy
+- **Decisions:** Rapier kinematic character controller (not dynamic body) for the player; fixed 60 Hz step with accumulator (clamped 0.1 s) and interpolated rendering; git identity is a repo-local placeholder noreply email.
+- **Evidence:** Scripted preview checks pass (wall stop, edge fall + respawn, no console errors). Preview fps ~40 on Intel iGPU (not a valid measurement).
+- **Open:** Gate A pass bar (60 fps on RTX, working URL) not yet measured. Fallback to Godot only if movement/collision is still unreliable after session 4; currently reliable.
+- **History:** Livy (army acclaims) and Polybius (Carthaginians appoint) differ on Hannibal's elevation; game shows both.
+
 ## 2026-10-17 — Project skeleton runs
 - **Stack pinned:** three 0.186.1, @dimforge/rapier3d-compat 0.21.0, vite 8.3.4, Node 24.22.0.
 - **Evidence:** In the Claude app's preview browser, a dynamic box falls and rests on the ground collider (y = 0.50), no console errors.
