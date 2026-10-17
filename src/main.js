@@ -1,6 +1,7 @@
 // Gate A graybox: third-person walk/run around a harbor street with Rapier collision.
 import * as THREE from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 await RAPIER.init();
 
@@ -85,6 +86,30 @@ const nose = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.3), new THREE.Mesh
 nose.position.set(0, 0.5, -RADIUS);
 player.add(nose);
 
+// ---- Character model (Quaternius Universal Animation Library mannequin, CC0 placeholder) ----
+// Idle/walk/run clips crossfade on movement state; falls back to the capsule if loading fails.
+let mixer = null, actions = {}, currentAction = null;
+function playState(name) {
+  const next = actions[name];
+  if (!next || next === currentAction) return;
+  next.reset().fadeIn(0.2).play();
+  if (currentAction) currentAction.fadeOut(0.2);
+  currentAction = next;
+}
+new GLTFLoader().load(import.meta.env.BASE_URL + 'models/mannequin_ual.glb', (gltf) => {
+  const model = gltf.scene;
+  model.position.y = -(HALF + RADIUS); // feet at the capsule bottom
+  model.rotation.y = Math.PI; // model faces +z; player faces -z
+  model.traverse((o) => { if (o.isMesh) o.castShadow = true; });
+  player.add(model);
+  player.material.visible = false;
+  nose.visible = false;
+  mixer = new THREE.AnimationMixer(model);
+  const clip = (n) => mixer.clipAction(THREE.AnimationClip.findByName(gltf.animations, n));
+  actions = { idle: clip('Idle_Loop'), walk: clip('Walk_Loop'), run: clip('Sprint_Loop') };
+  playState('idle');
+}, undefined, (e) => console.warn('Character model failed to load; using capsule', e));
+
 // ---- Input ----
 const keys = new Set();
 addEventListener('keydown', (e) => keys.add(e.code));
@@ -102,7 +127,7 @@ addEventListener('mousemove', (e) => {
 const DT = 1 / 60;
 world.timestep = DT;
 const WALK = 3.5, RUN = 7, GRAVITY = -20;
-let vy = 0, facing = 0;
+let vy = 0, facing = 0, moveState = 'idle';
 const prev = new THREE.Vector3(SPAWN.x, SPAWN.y, SPAWN.z);
 const curr = prev.clone();
 
@@ -119,6 +144,7 @@ function simulate() {
     dx /= len; dz /= len;
     facing = Math.atan2(-dx, -dz);
   }
+  moveState = len > 0 ? (speed === RUN ? 'run' : 'walk') : 'idle';
   vy = controller.computedGrounded() ? 0 : vy + GRAVITY * DT;
   const desired = { x: dx * speed * DT * (len > 0 ? 1 : 0), y: vy * DT, z: dz * speed * DT * (len > 0 ? 1 : 0) };
   controller.computeColliderMovement(playerCol, desired);
@@ -155,6 +181,7 @@ const render = new THREE.Vector3();
 
 renderer.setAnimationLoop(() => {
   const now = performance.now();
+  if (mixer) { playState(moveState); mixer.update(Math.min((now - lastT) / 1000, 0.1)); }
   acc += Math.min((now - lastT) / 1000, 0.1); // clamp to avoid spiral after tab switch
   lastT = now;
   while (acc >= DT) { simulate(); acc -= DT; }
@@ -184,4 +211,4 @@ renderer.setAnimationLoop(() => {
 });
 
 // Exposed for automated checks in the browser.
-window.__game = { playerBody, keys, respawn, setYaw: (v) => { yaw = v; } };
+window.__game = { getAnim: () => currentAction && currentAction.getClip().name, playerBody, keys, respawn, setYaw: (v) => { yaw = v; } };
