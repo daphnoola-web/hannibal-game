@@ -37,6 +37,8 @@ User subscribed to Meshy Pro (monthly, ₪30 first month, then ₪60/month) on 2
 - Scripted check passed in preview: far E does nothing, full run, restart resets, no console errors. User played it start to finish, no issues reported.
 - Caveats: Strabo silver figures remain secondary (flagged in dialogue); card text for Polybius 10.8-10 is paraphrase of the verified rows in history-sources.md.
 
+### Gate E (2026-10-17): draft decision record written in decisions.md; waiting for user's Intel iGPU fps, hours estimate, and publish/license decision.
+
 ### Next (Gate C onward)
 1. Ask user: OK to push to GitHub Pages? (after license check above).
 2. Gate C visual quality (HDRI sky, shadows, PBR textures, water, post-processing), measure iGPU.
