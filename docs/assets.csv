@@ -4,5 +4,5 @@ CANDIDATE: Quaternius packs,Quaternius,https://quaternius.com,not downloaded,CC0
 CANDIDATE: Kenney assets,Kenney,https://kenney.nl,not downloaded,CC0 (per site; re-verify per pack),none,none,props
 CANDIDATE: Meshy free-plan output,Meshy AI,https://www.meshy.ai,not generated,CC BY 4.0 on free plan (secondary sources; verify on meshy.ai),Credit Meshy,TBD,Hannibal / building (Gate B)
 CANDIDATE: Tripo free-plan output,Tripo AI,https://www.tripo3d.ai,not generated,CC BY 4.0 on free plan (secondary sources; verify),Credit Tripo and note modifications,TBD,Gate B alternative
-CANDIDATE: Mixamo animations,Adobe,https://www.mixamo.com,not downloaded,Adobe terms (free; verify redistribution in games),TBD,TBD,idle/walk/run
+CANDIDATE: Mixamo animations,Adobe,https://www.mixamo.com,not downloaded,Royalty-free for personal/commercial/non-profit projects incl. video games; free (Mixamo FAQ, pasted by user 2026-10-17; whether shipping the raw animation files in a public repo is allowed is NOT stated - keep an eye on this),TBD,TBD,idle/walk/run
 Universal Animation Library Standard - Mannequin (PLACEHOLDER character + 45 anims),Quaternius,https://opengameart.org/content/universal-animation-library,2026-10-17,CC0 1.0 (License.txt in zip),none (appreciated),none (GLB used as-is; not yet compressed),public/models/mannequin_ual.glb; player model
