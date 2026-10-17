@@ -16,12 +16,21 @@ User subscribed to Meshy Pro (monthly, ₪30 first month, then ₪60/month) on 2
 - Gate A: graybox harbor quay, Rapier kinematic character controller, WASD + Shift + mouse look, third-person camera, fixed 60 Hz physics, fps counter, respawn when falling. Preview scripted checks pass.
 - **Gate A measured:** 60 fps in regular Chrome on RTX 3070 (user), smooth, no clipping. Live Pages URL opened fine in a fresh window, user says it looks ok. Not yet measured: exact load time and Intel iGPU fps (do at Gate C/E). Build is 4.9 MB (1.8 MB gzip).
 
-### Gate B in progress (session 5)
-- Done: CC0 Quaternius mannequin (placeholder, 6.7 MB GLB, not yet compressed) loaded in `src/main.js` with Idle/Walk/Sprint crossfade; scripted preview check passed (idle→walk→run→idle, no console errors). Commit 2060ece. Pipeline code is reusable: swap the GLB + clip names for a Mixamo-rigged Hannibal.
-- Still needs the user: Meshy/Tripo + Adobe accounts, license check, spend approval (≤$30). Then: generate Hannibal + Punic building, Mixamo rig, GLB compress (gltf-transform, ask before installing), load building, measure fps.
-- Note: the UAL zip has no Hannibal-specific look; mannequin is a stand-in only.
+### Gate B: asset pipeline WORKS (session 5, 2026-10-17)
+- Meshy (Free→Pro monthly): text-to-3D Hannibal (+texture) and a Punic harbor building. Free plan cannot download any format; Pro needed (₪30 first month, then ₪60).
+- Mixamo: FBX from Meshy failed ("unable to map existing skeleton"); a heavy OBJ failed; a ~30k-face OBJ **zip with texture** rigged fine. Idle (with skin) + Walking/Running (without skin, In Place) downloaded as FBX.
+- Local pipeline (scripts in `assets/`): FBX2glTF → `merge-anims.mjs` (clips idle/walk/run into one GLB) → gltf-transform webp → `public/models/`. Raw/work files are gitignored.
+- In the game: Hannibal (30,792 tris, 2.2 MB) crossfades idle/walk/run; Punic building (33.7k tris, 2.0 MB) placed with collision (player stops at its wall). Preview fps 60. Build: dist ≈ 9 MB total incl. models (JS 4.9 MB, 1.8 MB gzip).
+- Gate B remaining: nothing blocking. Not yet pushed/published (public repo concern: Meshy Pro "private license" vs public repo, see below).
+- Known weaknesses: texture has albedo only (no normal/roughness through Mixamo FBX); arms-down A-ish pose rigged OK; Mixamo needs lighter OBJ + texture zip; clothing is reconstruction, not researched.
+- **OPEN before pushing:** confirm Meshy Pro terms allow redistributing the models in a public repo / on a public site. Free plan was CC BY 4.0 (credit Meshy); models were generated under Pro. Also Mixamo redistribution of raw animation files not explicit.
 
-### Next (Gate B, sessions 5-6)
+### Next (Gate C onward)
+1. Ask user: OK to push to GitHub Pages? (after license check above).
+2. Gate C visual quality (HDRI sky, shadows, PBR textures, water, post-processing), measure iGPU.
+3. Gate D mission loop.
+
+### Old Gate B plan (kept for reference)
 1. User creates Meshy or Tripo account + Adobe (Mixamo) account (click-by-click steps; confirm license text on the vendor site; budget up to ~$30, ask first).
 2. Generate Hannibal figure + one Punic-style building, rig in Mixamo (idle/walk/run), export GLB, compress, load into scene with animation blending.
 3. Fallback if it fails: animated CC0 Quaternius character labeled placeholder.

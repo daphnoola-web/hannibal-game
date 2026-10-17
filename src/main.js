@@ -54,7 +54,19 @@ addBox(-18, 3, -24, 16, 6, 10, wallMat);
 addBox(0, 4, -24, 12, 8, 10, wallMat);
 addBox(16, 3, -24, 18, 6, 10, wallMat);
 addBox(-12, 2, -6, 8, 4, 6, wallMat);
-addBox(10, 2.5, -8, 10, 5, 6, wallMat);
+// Punic harbor building (Meshy AI model): scaled to 7 m tall, box collider from its bounds.
+new GLTFLoader().load(import.meta.env.BASE_URL + 'models/punic_building.glb', (gltf) => {
+  const b = gltf.scene;
+  let box = new THREE.Box3().setFromObject(b);
+  const k = 7 / (box.max.y - box.min.y);
+  b.scale.setScalar(k);
+  box = new THREE.Box3().setFromObject(b);
+  b.position.set(10 - (box.min.x + box.max.x) / 2, -box.min.y, -8 - (box.min.z + box.max.z) / 2);
+  b.traverse((o) => { if (o.isMesh) o.castShadow = o.receiveShadow = true; });
+  scene.add(b);
+  const w = box.max.x - box.min.x, h = box.max.y - box.min.y, d = box.max.z - box.min.z;
+  addBox(10, h / 2, -8, w, h, d, wallMat, false);
+}, undefined, () => addBox(10, 2.5, -8, 10, 5, 6, wallMat)); // fallback: grey box
 // Crates and a bollard cluster on the quay edge.
 for (let i = 0; i < 5; i++) addBox(-8 + i * 1.2, 0.5, 8, 1, 1, 1, new THREE.MeshStandardMaterial({ color: 0x8b5a2b }));
 // Boundary walls (invisible) on the other sides.

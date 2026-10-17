@@ -2,6 +2,12 @@
 
 Newest first. Each entry: date, decision, why, evidence.
 
+## 2026-10-17 — Gate B PASSED (pending license check before publishing)
+- **Decision:** AI-generated character + building via Meshy, rigged/animated with Mixamo, is viable. Gate B passes on technical criteria: correct scale/pivot, idle/walk/run blending, ~2 MB per model, 60 fps in preview, collision with building works.
+- **Evidence:** screenshots and scripted check (animation state idle→walk→run; player stops at building wall at z=-5.6). Hours: roughly 2-3 h of user+agent time for the asset pipeline.
+- **What went badly:** Free Meshy plan cannot download; Mixamo rejected FBX with skeleton and heavy meshes; several round trips. User paid ₪30 (Meshy Pro month 1); renewal reminder at top of progress.md.
+- **Open:** license check for public publishing; see progress.md.
+
 ## 2026-10-17 — Gate B started: fallback pipeline works
 - **Decision:** Use the CC0 Quaternius Universal Animation Library mannequin as the placeholder player and animation test bed while AI-generation accounts are pending.
 - **Evidence:** Preview check: animation state idle→walk→run→idle on input, scale/feet pivot correct, no console errors. Gate B not yet passed (no AI-generated asset, building, or compression yet).
