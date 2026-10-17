@@ -2,25 +2,25 @@
 
 Newest first. Each entry: date, decision, why, evidence.
 
-## 2026-10-17 - Gate E: spike decision record (DRAFT, GO recommended; needs user's numbers marked TODO)
+## 2026-10-17 - Gate E: spike decision record - GO (publishing deferred)
 **Recommendation: GO** on Three.js + Rapier + AI-generated assets for a full MVP, with conditions below.
 
 Pass bar:
 | # | Criterion | Result |
 |---|---|---|
-| 1 | Public Pages URL opens in fresh Chrome | Passed at Gate A (earlier build). **Current build is NOT yet published**; publish needs user OK and the Meshy license check |
+| 1 | Public Pages URL opens in fresh Chrome | Passed at Gate A (earlier build). **Current build is NOT yet published**; user chose to leave publishing for later (needs OK + Meshy license check) |
 | 2 | Walk/run, third-person camera, collision, no falling through | Pass (user play-tested) |
 | 3 | NPC -> objective -> crate -> history card with citations + fiction label -> completion, replayable | Pass (user played start to finish, no issues) |
 | 4 | AI-generated asset in scene | Pass: Meshy Hannibal (rigged/animated via Mixamo) + Meshy Punic building |
-| 5 | 30+ fps on RTX; Intel iGPU recorded | RTX: 61 fps all states (user, Chrome). Intel iGPU: **TODO (user)**. Preview-pane Intel readings were 1-35 fps but that pane is throttled, not a valid measure |
+| 5 | 30+ fps on RTX; Intel iGPU recorded | RTX: 61 fps all states (user, Chrome). Intel iGPU (Windows Graphics = Power saving, user): 56-60 fps, playable. Preview-pane Intel readings were 1-35 fps but that pane is throttled, not a valid measure |
 | 6 | Size and load time | Build 17.9 MB on disk (JS 4.8 MB = 1.85 MB gzip, sky 5.2, models 2.0 + 1.9, textures ~4.5). ~15 MB over the wire, far under the 150 MB cap. Load to playable: 3.5 s on localhost (no network delay) = lower bound; estimate ~6 s at 50 Mbps, ~13 s at 10 Mbps. Fresh-profile measurement from the live site: **TODO after publishing** |
-| 7 | Written decision record | This entry; hours: **TODO (user estimate)** |
+| 7 | Written decision record | This entry; user hours about 5 |
 
 What the AI did well: scaffold, physics/movement, rendering stack, post-processing, mission system, verification by scripted browser checks, fast iteration on feedback (textures swapped twice). What went badly: Meshy/Mixamo pipeline needed several round trips (FBX rejected, heavy meshes rejected); free Meshy plan cannot download; preview pane gives no real fps; feet-hover bug needed a fix; first ground/wall textures looked wrong and needed swaps.
 
-Risks for the full game: (1) Meshy/Mixamo license for public redistribution unconfirmed; (2) AI-generated characters have albedo only and look generic, every extra character costs credits + manual Mixamo steps; (3) history content is only as good as sourcing (some rows still 're-verify', clothing/gear unresearched); (4) 5 MB JS bundle (could be code-split); (5) Intel iGPU performance unknown, post-processing may need a low-quality toggle.
+Risks for the full game: (1) Meshy/Mixamo license for public redistribution unconfirmed; (2) AI-generated characters have albedo only and look generic, every extra character costs credits + manual Mixamo steps; (3) history content is only as good as sourcing (some rows still 're-verify', clothing/gear unresearched); (4) 5 MB JS bundle (could be code-split); (5) Intel iGPU performed fine at this scene size (56-60 fps), but a bigger level may need a low-quality toggle for post-processing.
 
-Rough MVP estimate (one 10-15 min mission, 3 NPCs, 3 sourced history points, save checkpoint): about 8-12 further sessions of 1-2 h (levels/props 3-4, 2 more NPCs + animations 2-3, dialogue/history research and cards 2-3, quality toggle + save + polish 2). Spike itself took about 10 sessions (user hours TODO). If NO-GO were chosen the cheapest alternative would be a 2D/illustrated campaign map with the same cards.
+Rough MVP estimate (one 10-15 min mission, 3 NPCs, 3 sourced history points, save checkpoint): about 8-12 further sessions of 1-2 h (levels/props 3-4, 2 more NPCs + animations 2-3, dialogue/history research and cards 2-3, quality toggle + save + polish 2). Spike itself took about 10 sessions (about 5 user hours; agent time not counted). If NO-GO were chosen the cheapest alternative would be a 2D/illustrated campaign map with the same cards.
 
 ## 2026-10-17 - Gate D PASSED (user played it, no issues)
 - **Decision:** Mission content lives in a data file (`src/mission-data.js`), logic in `src/mission.js`; DOM overlay UI, no framework. NPC is a recoloured clone of the Hannibal model (no extra asset).
