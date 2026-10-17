@@ -2,6 +2,10 @@
 
 Newest first. Each entry: date, decision, why, evidence.
 
+## 2026-10-17 — Gate B started: fallback pipeline works
+- **Decision:** Use the CC0 Quaternius Universal Animation Library mannequin as the placeholder player and animation test bed while AI-generation accounts are pending.
+- **Evidence:** Preview check: animation state idle→walk→run→idle on input, scale/feet pivot correct, no console errors. Gate B not yet passed (no AI-generated asset, building, or compression yet).
+
 ## 2026-10-17 — Gate A PASSED
 - **Decision:** Gate A passes; stay on Three.js + Rapier (no Godot fallback). Public repo and GitHub Pages are used because free Pages requires a public repo; no secrets are in the repo.
 - **Evidence:** 60 fps on RTX in Chrome, smooth, no collision issues; live URL loads in a fresh window.

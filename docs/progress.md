@@ -13,6 +13,11 @@ Read this first in a new session, then `spike-plan.md` (the approved plan) and `
 - Gate A: graybox harbor quay, Rapier kinematic character controller, WASD + Shift + mouse look, third-person camera, fixed 60 Hz physics, fps counter, respawn when falling. Preview scripted checks pass.
 - **Gate A measured:** 60 fps in regular Chrome on RTX 3070 (user), smooth, no clipping. Live Pages URL opened fine in a fresh window, user says it looks ok. Not yet measured: exact load time and Intel iGPU fps (do at Gate C/E). Build is 4.9 MB (1.8 MB gzip).
 
+### Gate B in progress (session 5)
+- Done: CC0 Quaternius mannequin (placeholder, 6.7 MB GLB, not yet compressed) loaded in `src/main.js` with Idle/Walk/Sprint crossfade; scripted preview check passed (idle→walk→run→idle, no console errors). Commit 2060ece. Pipeline code is reusable: swap the GLB + clip names for a Mixamo-rigged Hannibal.
+- Still needs the user: Meshy/Tripo + Adobe accounts, license check, spend approval (≤$30). Then: generate Hannibal + Punic building, Mixamo rig, GLB compress (gltf-transform, ask before installing), load building, measure fps.
+- Note: the UAL zip has no Hannibal-specific look; mannequin is a stand-in only.
+
 ### Next (Gate B, sessions 5-6)
 1. User creates Meshy or Tripo account + Adobe (Mixamo) account (click-by-click steps; confirm license text on the vendor site; budget up to ~$30, ask first).
 2. Generate Hannibal figure + one Punic-style building, rig in Mixamo (idle/walk/run), export GLB, compress, load into scene with animation blending.
