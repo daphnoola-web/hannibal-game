@@ -1,6 +1,7 @@
 // Gate A graybox: third-person walk/run around a harbor street with Rapier collision.
 import * as THREE from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
+import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
 import { Water } from 'three/examples/jsm/objects/Water.js';
@@ -8,6 +9,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { createMission } from './mission.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 
 await RAPIER.init();
@@ -143,6 +145,11 @@ new GLTFLoader().load(import.meta.env.BASE_URL + 'models/punic_building.glb', (g
   const w = box.max.x - box.min.x, h = box.max.y - box.min.y, d = box.max.z - box.min.z;
   addBox(10, h / 2, -8, w, h, d, wallMat, false);
 }, undefined, () => addBox(10, 2.5, -8, 10, 5, 6, wallMat)); // fallback: grey box
+// Mission props: the officer (NPC, added when the character model loads) and the inspectable supply crate.
+const OFFICER_POS = { x: -5, z: 2 };
+const CRATE_POS = { x: 4, z: 9.5 };
+addBox(CRATE_POS.x, 0.6, CRATE_POS.z, 1.2, 1.2, 1.2, new THREE.MeshStandardMaterial({ color: 0xa0652a, emissive: 0x3a2000 }));
+addBox(OFFICER_POS.x, 0.9, OFFICER_POS.z, 0.8, 1.8, 0.8, null, false);
 // Crates and a bollard cluster on the quay edge.
 for (let i = 0; i < 5; i++) addBox(-8 + i * 1.2, 0.5, 8, 1, 1, 1, new THREE.MeshStandardMaterial({ color: 0x8b5a2b }));
 // Boundary walls (invisible) on the other sides.
@@ -176,7 +183,7 @@ player.add(nose);
 
 // ---- Character model (Meshy AI model rigged and animated with Mixamo) ----
 // Idle/walk/run clips crossfade on movement state; falls back to the capsule if loading fails.
-let mixer = null, actions = {}, currentAction = null;
+let npcMixer = null, mixer = null, actions = {}, currentAction = null;
 function playState(name) {
   const next = actions[name];
   if (!next || next === currentAction) return;
@@ -216,6 +223,16 @@ new GLTFLoader().load(import.meta.env.BASE_URL + 'models/hannibal.glb', (gltf) =
   model.scale.multiplyScalar((2 * (HALF + RADIUS)) / (hi - lo));
   [lo] = measure();
   model.position.y -= lo + (HALF + RADIUS); // feet at the capsule bottom
+  // Officer NPC: a recoloured clone of the same model, idling, turned toward the spawn.
+  const npc = new THREE.Group();
+  const body = cloneSkinned(model);
+  body.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.color.set(0x8fa8c8); } });
+  npc.add(body);
+  npc.position.set(OFFICER_POS.x, HALF + RADIUS, OFFICER_POS.z); // capsule-centre height, as for the player
+  npc.rotation.y = Math.PI / 2;
+  scene.add(npc);
+  npcMixer = new THREE.AnimationMixer(body);
+  npcMixer.clipAction(THREE.AnimationClip.findByName(gltf.animations, 'idle')).play();
 }, undefined, (e) => console.warn('Character model failed to load; using capsule', e));
 
 // ---- Input ----
@@ -241,8 +258,9 @@ const curr = prev.clone();
 
 function simulate() {
   prev.copy(curr);
-  const f = (keys.has('KeyW') ? 1 : 0) - (keys.has('KeyS') ? 1 : 0);
-  const r = (keys.has('KeyD') ? 1 : 0) - (keys.has('KeyA') ? 1 : 0);
+  const frozen = mission.isBlocking();
+  const f = frozen ? 0 : (keys.has('KeyW') ? 1 : 0) - (keys.has('KeyS') ? 1 : 0);
+  const r = frozen ? 0 : (keys.has('KeyD') ? 1 : 0) - (keys.has('KeyA') ? 1 : 0);
   const speed = keys.has('ShiftLeft') || keys.has('ShiftRight') ? RUN : WALK;
   // Camera-relative move direction (forward = -z rotated by yaw).
   let dx = -Math.sin(yaw) * f + Math.cos(yaw) * r;
@@ -264,6 +282,8 @@ function simulate() {
   curr.set(next.x, next.y, next.z);
   if (next.y < -10) respawn();
 }
+
+const mission = createMission({ getPlayerPos: () => curr, officerPos: OFFICER_POS, cratePos: CRATE_POS, onRestart: () => respawn() });
 
 function respawn() {
   playerBody.setTranslation(SPAWN, true);
@@ -302,6 +322,8 @@ const render = new THREE.Vector3();
 
 renderer.setAnimationLoop(() => {
   const now = performance.now();
+  if (npcMixer) npcMixer.update(Math.min((now - lastT) / 1000, 0.1));
+  mission.update();
   if (mixer) { playState(moveState); mixer.update(Math.min((now - lastT) / 1000, 0.1)); }
   acc += Math.min((now - lastT) / 1000, 0.1); // clamp to avoid spiral after tab switch
   lastT = now;
@@ -336,4 +358,4 @@ renderer.setAnimationLoop(() => {
 });
 
 // Exposed for automated checks in the browser.
-window.__game = { scene, player, getAnim: () => currentAction && currentAction.getClip().name, playerBody, keys, respawn, setYaw: (v) => { yaw = v; } };
+window.__game = { scene, player, getAnim: () => currentAction && currentAction.getClip().name, playerBody, keys, mission, curr, respawn, setYaw: (v) => { yaw = v; } };

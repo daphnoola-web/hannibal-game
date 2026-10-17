@@ -7,10 +7,22 @@
     <style>
       html, body { margin: 0; height: 100%; overflow: hidden; background: #000; }
       #fps { position: fixed; top: 8px; left: 8px; color: #fff; font: 12px monospace; background: rgba(0,0,0,.5); padding: 2px 6px; }
+      #objective { position: fixed; top: 8px; left: 50%; transform: translateX(-50%); color: #fff; font: 15px sans-serif; background: rgba(0,0,0,.55); padding: 6px 14px; border-radius: 6px; }
+      #prompt { position: fixed; bottom: 14%; left: 50%; transform: translateX(-50%); color: #fff; font: 18px sans-serif; background: rgba(0,0,0,.65); padding: 8px 18px; border-radius: 6px; display: none; }
+      #panel { position: fixed; left: 50%; bottom: 6%; transform: translateX(-50%); width: min(640px, 92vw); max-height: 80vh; overflow: auto; box-sizing: border-box; color: #f4ead5; font: 16px/1.45 Georgia, serif; background: rgba(25,18,10,.92); border: 1px solid #b59a74; padding: 14px 20px; border-radius: 8px; display: none; }
+      #panel h2 { margin: 0 0 8px; font-size: 20px; }
+      #panel p { margin: 6px 0; }
+      #panel .who { color: #e0b66a; font-weight: bold; }
+      #panel .src { color: #b8a98a; font-size: 13px; margin-top: 8px; }
+      #panel .fiction { margin-top: 10px; padding: 6px 10px; background: rgba(224,182,106,.15); border-left: 3px solid #e0b66a; font-size: 14px; }
+      #panel button { display: block; margin-top: 8px; padding: 6px 12px; font: 15px sans-serif; background: #5a4528; color: #fff; border: 1px solid #b59a74; border-radius: 4px; cursor: pointer; }
     </style>
   </head>
   <body>
     <div id="fps">-- fps</div>
+    <div id="objective"></div>
+    <div id="prompt"></div>
+    <div id="panel"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

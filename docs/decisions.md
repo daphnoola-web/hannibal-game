@@ -2,6 +2,10 @@
 
 Newest first. Each entry: date, decision, why, evidence.
 
+## 2026-10-17 - Gate D built (not yet played by user)
+- **Decision:** Mission content lives in a data file (`src/mission-data.js`), logic in `src/mission.js`; DOM overlay UI, no framework. NPC is a recoloured clone of the Hannibal model (no extra asset).
+- **Evidence:** Scripted playthrough in preview passes (talk, choices, crate, card, complete, replay); no console errors. Pass still requires the user to play it start to finish without help.
+
 ## 2026-10-17 - Gate C built (not yet judged)
 - **Decision:** Use built-in three.js addons (Water, EffectComposer, GTAO, Bloom, OutputPass) plus 3 CC0 Poly Haven sets; no new npm installs. Total new download ~10 MB.
 - **Evidence:** no console errors; user in regular Chrome (RTX): 61 fps in all states, look 'ok' (ground/walls re-textured twice on feedback). Gate C passes on RTX; Intel iGPU fps still to record at Gate E.
