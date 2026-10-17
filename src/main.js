@@ -2,6 +2,13 @@
 import * as THREE from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
+import { Water } from 'three/examples/jsm/objects/Water.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 
 await RAPIER.init();
 
@@ -9,26 +16,96 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.9;
 document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x9cc7e8);
 const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 500);
 
-scene.add(new THREE.HemisphereLight(0xffffff, 0x8a7354, 1.2));
-const sun = new THREE.DirectionalLight(0xffffff, 2);
-sun.position.set(20, 30, 10);
+// Sun: direction is read from the brightest pixel of the HDRI (below) so light matches the sky.
+const sun = new THREE.DirectionalLight(0xfff1d6, 3.2);
+const SUN_DIR = new THREE.Vector3(0.5, 0.8, 0.35).normalize();
+const SHADOW_R = 22;
 sun.castShadow = true;
-sun.shadow.camera.left = -40; sun.shadow.camera.right = 40;
-sun.shadow.camera.top = 40; sun.shadow.camera.bottom = -40;
+sun.shadow.camera.left = -SHADOW_R; sun.shadow.camera.right = SHADOW_R;
+sun.shadow.camera.top = SHADOW_R; sun.shadow.camera.bottom = -SHADOW_R;
+sun.shadow.camera.near = 1; sun.shadow.camera.far = 120;
 sun.shadow.mapSize.set(2048, 2048);
-scene.add(sun);
+sun.shadow.bias = -0.0004;
+sun.shadow.normalBias = 0.04;
+scene.add(sun, sun.target);
+const water = new Water(new THREE.PlaneGeometry(400, 400), {
+  waterNormals: makeWaterNormals(),
+  sunDirection: SUN_DIR,
+  sunColor: 0xffffff,
+  waterColor: 0x0a3a4a,
+  distortionScale: 8,
+  textureWidth: 512, textureHeight: 512,
+});
+water.rotation.x = -Math.PI / 2;
+water.position.set(0, -1.5, 112);
+scene.add(water);
+new HDRLoader().load(import.meta.env.BASE_URL + 'env/sky_2k.hdr', (tex) => {
+  // find sun: brightest texel of the equirectangular map -> world direction
+  const { data, width, height } = tex.image;
+  let best = -1, bi = 0;
+  for (let i = 0; i < width * height; i++) {
+    const l = THREE.DataUtils.fromHalfFloat(data[i * 4]) + THREE.DataUtils.fromHalfFloat(data[i * 4 + 1]) + THREE.DataUtils.fromHalfFloat(data[i * 4 + 2]);
+    if (l > best) { best = l; bi = i; }
+  }
+  const u = (bi % width) / width, v = Math.floor(bi / width) / height;
+  const az = (u - 0.5) * 2 * Math.PI, lat = Math.abs((0.5 - v) * Math.PI); // sun is above the horizon
+  SUN_DIR.set(Math.cos(lat) * Math.cos(az), Math.sin(lat), Math.cos(lat) * Math.sin(az)).normalize();
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  scene.background = tex;
+  scene.environment = tex;
+  scene.environmentIntensity = 0.6;
+  water.material.uniforms.sunDirection.value.copy(SUN_DIR);
+});
+
+// Procedural tileable water normal map (sum of sine waves), avoids a texture download.
+function makeWaterNormals() {
+  const N = 256, h = new Float32Array(N * N), data = new Uint8Array(N * N * 4);
+  const waves = [[3, 1, 1], [1, 4, 0.8], [5, 5, 0.4], [7, 2, 0.3], [2, 9, 0.25]];
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    let a = 0;
+    for (const [kx, ky, amp] of waves) a += amp * Math.sin(2 * Math.PI * (kx * x + ky * y) / N + kx * ky);
+    h[y * N + x] = a;
+  }
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const dx = h[y * N + (x + 1) % N] - h[y * N + (x + N - 1) % N];
+    const dy = h[((y + 1) % N) * N + x] - h[((y + N - 1) % N) * N + x];
+    const nx = -dx * 1.6, ny = -dy * 1.6, nz = 1, l = Math.hypot(nx, ny, nz);
+    const o = (y * N + x) * 4;
+    data[o] = (nx / l * 0.5 + 0.5) * 255; data[o + 1] = (ny / l * 0.5 + 0.5) * 255; data[o + 2] = (nz / l * 0.5 + 0.5) * 255; data[o + 3] = 255;
+  }
+  const t = new THREE.DataTexture(data, N, N);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.needsUpdate = true;
+  return t;
+}
 
 const world = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
 
 // ---- Level: quay (ground) z in [-30, 12], sea beyond z > 12 ----
-const sandMat = new THREE.MeshStandardMaterial({ color: 0xd8c39a });
-const wallMat = new THREE.MeshStandardMaterial({ color: 0xb59a74 });
+// PBR materials from Poly Haven CC0 textures (1k): colour + normal + roughness.
+const texLoader = new THREE.TextureLoader();
+function pbr(name, rx, ry, tint = 0xffffff) {
+  const load = (suffix, srgb) => {
+    const t = texLoader.load(`${import.meta.env.BASE_URL}tex/${name}_${suffix}.jpg`);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.repeat.set(rx, ry);
+    t.anisotropy = 8;
+    if (srgb) t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  };
+  return new THREE.MeshStandardMaterial({ color: tint, map: load('diff', true), normalMap: load('nor_gl', false), roughnessMap: load('rough', false) });
+}
+const sandMat = pbr('sand', 12, 8, 0xf0c890);
+const wallMat = pbr('wall', 4, 2);
 
 function addBox(x, y, z, w, h, d, mat, visible = true) {
   world.createCollider(RAPIER.ColliderDesc.cuboid(w / 2, h / 2, d / 2).setTranslation(x, y, z));
@@ -40,14 +117,7 @@ function addBox(x, y, z, w, h, d, mat, visible = true) {
 }
 
 addBox(0, -0.5, -9, 60, 1, 42, sandMat);           // quay, top at y = 0
-// Sea (visual only): player falling in triggers respawn.
-const sea = new THREE.Mesh(
-  new THREE.PlaneGeometry(200, 200),
-  new THREE.MeshStandardMaterial({ color: 0x2a6f8f })
-);
-sea.rotation.x = -Math.PI / 2;
-sea.position.set(0, -1.5, 112);
-scene.add(sea);
+// Sea: see Water above (visual only); player falling in triggers respawn.
 
 // Buildings along the north side and two cross-street blocks.
 addBox(-18, 3, -24, 16, 6, 10, wallMat);
@@ -197,10 +267,23 @@ function respawn() {
   vy = 0;
 }
 
+// ---- Post-processing: AO, light bloom, tone mapping (via OutputPass) ----
+const composer = new EffectComposer(renderer);
+composer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+composer.addPass(new RenderPass(scene, camera));
+const ao = new GTAOPass(scene, camera, innerWidth, innerHeight);
+ao.output = GTAOPass.OUTPUT.Default;
+ao.updateGtaoMaterial({ radius: 0.6, distanceExponent: 1, thickness: 1, scale: 1, samples: 8, distanceFallOff: 1, screenSpaceRadius: false });
+ao.blendIntensity = 0.9;
+composer.addPass(ao);
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.12, 0.6, 0.95));
+composer.addPass(new OutputPass());
+
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
+  composer.setSize(innerWidth, innerHeight);
 });
 
 // ---- Loop ----
@@ -232,7 +315,11 @@ renderer.setAnimationLoop(() => {
   camera.position.copy(camPos);
   camera.lookAt(camTarget);
 
-  renderer.render(scene, camera);
+  // sun and shadow box follow the player so shadows stay sharp near Hannibal
+  sun.target.position.copy(render);
+  sun.position.copy(render).addScaledVector(SUN_DIR, 60);
+  water.material.uniforms.time.value = now / 1000 * 0.5;
+  composer.render();
 
   frames++;
   if (now - fpsLast >= 1000) {

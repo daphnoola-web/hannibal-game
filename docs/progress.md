@@ -26,6 +26,11 @@ User subscribed to Meshy Pro (monthly, ₪30 first month, then ₪60/month) on 2
 - Known weaknesses: texture has albedo only (no normal/roughness through Mixamo FBX); arms-down A-ish pose rigged OK; Mixamo needs lighter OBJ + texture zip; clothing is reconstruction, not researched.
 - **OPEN before pushing:** confirm Meshy Pro terms allow redistributing the models in a public repo / on a public site. Free plan was CC BY 4.0 (credit Meshy); models were generated under Pro. Also Mixamo redistribution of raw animation files not explicit.
 
+### Gate C visuals (session 6, 2026-10-17) - built, awaiting user judgement + fps
+- Added: HDRI sky (Poly Haven, 5.5 MB) + IBL, sun direction auto-read from HDRI, shadows following the player, ACES tone mapping, PBR ground/walls (CC0, 4.7 MB), reflective Water (procedural normal map, no download), GTAO ambient occlusion + light bloom (EffectComposer). Extra download about 10 MB.
+- Preview pane fps is meaningless (Intel iGPU, 1-8 fps); no console errors. REAL fps must be read by the user in regular Chrome (RTX), then on Intel (Windows Settings > System > Display > Graphics > add Chrome > Options > Power saving).
+- Weak spots: ground texture looks mossy, not Mediterranean sand; walls look like rough stone; water is a mirror-like sea with no foam/quay edge; building still the only Meshy asset. If fps is low: cut GTAO first, then water reflection size.
+
 ### Next (Gate C onward)
 1. Ask user: OK to push to GitHub Pages? (after license check above).
 2. Gate C visual quality (HDRI sky, shadows, PBR textures, water, post-processing), measure iGPU.
