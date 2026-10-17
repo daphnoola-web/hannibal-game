@@ -2,6 +2,11 @@
 
 Newest first. Each entry: date, decision, why, evidence.
 
+## 2026-10-17 — Gate A PASSED
+- **Decision:** Gate A passes; stay on Three.js + Rapier (no Godot fallback). Public repo and GitHub Pages are used because free Pages requires a public repo; no secrets are in the repo.
+- **Evidence:** 60 fps on RTX in Chrome, smooth, no collision issues; live URL loads in a fresh window.
+- **Open:** load time, iGPU fps, Intel check deferred to Gates C/E.
+
 ## 2026-10-17 — Gate A code done, awaiting measurement and deploy
 - **Decisions:** Rapier kinematic character controller (not dynamic body) for the player; fixed 60 Hz step with accumulator (clamped 0.1 s) and interpolated rendering; git identity is a repo-local placeholder noreply email.
 - **Evidence:** Scripted preview checks pass (wall stop, edge fall + respawn, no console errors). Preview fps ~40 on Intel iGPU (not a valid measurement).
