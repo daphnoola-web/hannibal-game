@@ -2,7 +2,7 @@
 
 Newest first. Each entry: date, decision, why, evidence.
 
-## 2026-10-17 - Gate D built (not yet played by user)
+## 2026-10-17 - Gate D PASSED (user played it, no issues)
 - **Decision:** Mission content lives in a data file (`src/mission-data.js`), logic in `src/mission.js`; DOM overlay UI, no framework. NPC is a recoloured clone of the Hannibal model (no extra asset).
 - **Evidence:** Scripted playthrough in preview passes (talk, choices, crate, card, complete, replay); no console errors. Pass still requires the user to play it start to finish without help.
 

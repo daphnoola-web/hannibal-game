@@ -32,9 +32,9 @@ User subscribed to Meshy Pro (monthly, ₪30 first month, then ₪60/month) on 2
 - Preview pane fps is meaningless (Intel iGPU, 1-8 fps); no console errors. REAL fps must be read by the user in regular Chrome (RTX), then on Intel (Windows Settings > System > Display > Graphics > add Chrome > Options > Power saving).
 - Textures swapped after user feedback (too mossy/rough) to dense_sand + beige_wall_002 (smooth). Weak spots: water is a mirror-like sea with no foam/quay edge; building still the only Meshy asset. If fps is low: cut GTAO first, then water reflection size.
 
-### Gate D mission loop (built 2026-10-17, awaiting user play-through)
+### Gate D mission loop (built 2026-10-17, PASSED: user played it in Chrome, 'everything looks fine')
 - `src/mission-data.js` (authored dialogue, objectives, history card, citations) + `src/mission.js` (state machine) + UI in index.html. Flow: walk to the officer (blue-tinted clone of Hannibal at x=-5,z=2), E to talk (two topics: Hasdrubal's death, silver; 1/2 or click to choose, E to continue) -> inspect the crate (x=4,z=9.5) with E -> history card (Livy vs Polybius disagreement, fiction label, sources) -> 'Mission complete', R replays. Movement freezes during dialogue/card.
-- Scripted check passed in preview: far E does nothing, full run, restart resets, no console errors. User has not played it yet.
+- Scripted check passed in preview: far E does nothing, full run, restart resets, no console errors. User played it start to finish, no issues reported.
 - Caveats: Strabo silver figures remain secondary (flagged in dialogue); card text for Polybius 10.8-10 is paraphrase of the verified rows in history-sources.md.
 
 ### Next (Gate C onward)
