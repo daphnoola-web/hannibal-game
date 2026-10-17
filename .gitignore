@@ -1,3 +1,6 @@
 node_modules/
 dist/
 .DS_Store
+
+# Raw downloaded/generated sources (large; license-sensitive, kept local only)
+assets/raw/
