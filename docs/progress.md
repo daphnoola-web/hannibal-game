@@ -29,7 +29,7 @@ User subscribed to Meshy Pro (monthly, ₪30 first month, then ₪60/month) on 2
 ### Gate C visuals (session 6, 2026-10-17) - built, awaiting user judgement + fps
 - Added: HDRI sky (Poly Haven, 5.5 MB) + IBL, sun direction auto-read from HDRI, shadows following the player, ACES tone mapping, PBR ground/walls (CC0, 4.7 MB), reflective Water (procedural normal map, no download), GTAO ambient occlusion + light bloom (EffectComposer). Extra download about 10 MB.
 - Preview pane fps is meaningless (Intel iGPU, 1-8 fps); no console errors. REAL fps must be read by the user in regular Chrome (RTX), then on Intel (Windows Settings > System > Display > Graphics > add Chrome > Options > Power saving).
-- Weak spots: ground texture looks mossy, not Mediterranean sand; walls look like rough stone; water is a mirror-like sea with no foam/quay edge; building still the only Meshy asset. If fps is low: cut GTAO first, then water reflection size.
+- Textures swapped after user feedback (too mossy/rough) to dense_sand + beige_wall_002 (smooth). Weak spots: water is a mirror-like sea with no foam/quay edge; building still the only Meshy asset. If fps is low: cut GTAO first, then water reflection size.
 
 ### Next (Gate C onward)
 1. Ask user: OK to push to GitHub Pages? (after license check above).
