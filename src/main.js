@@ -93,7 +93,7 @@ const world = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
 // ---- Level: quay (ground) z in [-30, 12], sea beyond z > 12 ----
 // PBR materials from Poly Haven CC0 textures (1k): colour + normal + roughness.
 const texLoader = new THREE.TextureLoader();
-function pbr(name, rx, ry, tint = 0xffffff) {
+function pbr(name, rx, ry, tint = 0xffffff, sat = 1, gain = 1) {
   const load = (suffix, srgb) => {
     const t = texLoader.load(`${import.meta.env.BASE_URL}tex/${name}_${suffix}.jpg`);
     t.wrapS = t.wrapT = THREE.RepeatWrapping;
@@ -102,10 +102,16 @@ function pbr(name, rx, ry, tint = 0xffffff) {
     if (srgb) t.colorSpace = THREE.SRGBColorSpace;
     return t;
   };
-  return new THREE.MeshStandardMaterial({ color: tint, map: load('diff', true), normalMap: load('nor_gl', false), roughnessMap: load('rough', false) });
+  const mat = new THREE.MeshStandardMaterial({ color: tint, map: load('diff', true), normalMap: load('nor_gl', false), roughnessMap: load('rough', false) });
+  // Desaturate the colour map (0 = grey, 1 = original) so mossy/dark textures read as dry sand or plaster.
+  mat.onBeforeCompile = (sh) => {
+    sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', `#include <map_fragment>
+      diffuseColor.rgb = mix(vec3(dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114))), diffuseColor.rgb, ${sat.toFixed(2)}) * ${gain.toFixed(2)};`);
+  };
+  return mat;
 }
-const sandMat = pbr('sand', 12, 8, 0xf0c890);
-const wallMat = pbr('wall', 4, 2);
+const sandMat = pbr('sand', 12, 8, 0xffd9a0, 0.28, 2.1);
+const wallMat = pbr('wall', 4, 2, 0xf5d2a8, 0.5, 2.0);
 
 function addBox(x, y, z, w, h, d, mat, visible = true) {
   world.createCollider(RAPIER.ColliderDesc.cuboid(w / 2, h / 2, d / 2).setTranslation(x, y, z));
