@@ -4,7 +4,7 @@ Newest first. Each entry: date, decision, why, evidence.
 
 ## 2026-10-17 - Gate C built (not yet judged)
 - **Decision:** Use built-in three.js addons (Water, EffectComposer, GTAO, Bloom, OutputPass) plus 3 CC0 Poly Haven sets; no new npm installs. Total new download ~10 MB.
-- **Evidence:** renders with no console errors; screenshots reviewed. fps not measurable in the preview pane; awaiting user reading from Chrome.
+- **Evidence:** no console errors; user in regular Chrome (RTX): 61 fps in all states, look 'ok' (ground/walls re-textured twice on feedback). Gate C passes on RTX; Intel iGPU fps still to record at Gate E.
 
 ## 2026-10-17 — Gate B PASSED (pending license check before publishing)
 - **Decision:** AI-generated character + building via Meshy, rigged/animated with Mixamo, is viable. Gate B passes on technical criteria: correct scale/pivot, idle/walk/run blending, ~2 MB per model, 60 fps in preview, collision with building works.

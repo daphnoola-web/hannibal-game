@@ -28,6 +28,7 @@ User subscribed to Meshy Pro (monthly, ₪30 first month, then ₪60/month) on 2
 
 ### Gate C visuals (session 6, 2026-10-17) - built, awaiting user judgement + fps
 - Added: HDRI sky (Poly Haven, 5.5 MB) + IBL, sun direction auto-read from HDRI, shadows following the player, ACES tone mapping, PBR ground/walls (CC0, 4.7 MB), reflective Water (procedural normal map, no download), GTAO ambient occlusion + light bloom (EffectComposer). Extra download about 10 MB.
+- **Measured (user, regular Chrome, RTX):** 61 fps standing/walking/running with all effects; user judged look 'ok' after texture swaps. Intel iGPU still not measured.
 - Preview pane fps is meaningless (Intel iGPU, 1-8 fps); no console errors. REAL fps must be read by the user in regular Chrome (RTX), then on Intel (Windows Settings > System > Display > Graphics > add Chrome > Options > Power saving).
 - Textures swapped after user feedback (too mossy/rough) to dense_sand + beige_wall_002 (smooth). Weak spots: water is a mirror-like sea with no foam/quay edge; building still the only Meshy asset. If fps is low: cut GTAO first, then water reflection size.
 
