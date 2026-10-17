@@ -22,6 +22,7 @@ User subscribed to Meshy Pro (monthly, ₪30 first month, then ₪60/month) on 2
 - Local pipeline (scripts in `assets/`): FBX2glTF → `merge-anims.mjs` (clips idle/walk/run into one GLB) → gltf-transform webp → `public/models/`. Raw/work files are gitignored.
 - In the game: Hannibal (30,792 tris, 2.2 MB) crossfades idle/walk/run; Punic building (33.7k tris, 2.0 MB) placed with collision (player stops at its wall). Preview fps 60. Build: dist ≈ 9 MB total incl. models (JS 4.9 MB, 1.8 MB gzip).
 - Gate B remaining: nothing blocking. Not yet pushed/published (public repo concern: Meshy Pro "private license" vs public repo, see below).
+- Fixed after user play-test (61 fps, fast load): feet hovered 0.85 m because Box3 on a skinned mesh was wrong; now fitted from posed vertices (feet 0.02 m above ground in idle).
 - Known weaknesses: texture has albedo only (no normal/roughness through Mixamo FBX); arms-down A-ish pose rigged OK; Mixamo needs lighter OBJ + texture zip; clothing is reconstruction, not researched.
 - **OPEN before pushing:** confirm Meshy Pro terms allow redistributing the models in a public repo / on a public site. Free plan was CC BY 4.0 (credit Meshy); models were generated under Pro. Also Mixamo redistribution of raw animation files not explicit.
 

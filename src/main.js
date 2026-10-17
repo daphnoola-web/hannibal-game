@@ -98,7 +98,7 @@ const nose = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.3), new THREE.Mesh
 nose.position.set(0, 0.5, -RADIUS);
 player.add(nose);
 
-// ---- Character model (Meshy AI model rigged and animated with Mixamo; gray until textured) ----
+// ---- Character model (Meshy AI model rigged and animated with Mixamo) ----
 // Idle/walk/run clips crossfade on movement state; falls back to the capsule if loading fails.
 let mixer = null, actions = {}, currentAction = null;
 function playState(name) {
@@ -110,11 +110,6 @@ function playState(name) {
 }
 new GLTFLoader().load(import.meta.env.BASE_URL + 'models/hannibal.glb', (gltf) => {
   const model = gltf.scene;
-  // Fit to the capsule: scale to its height (1.7 m), feet at the capsule bottom, centred.
-  const box = new THREE.Box3().setFromObject(model);
-  const k = (2 * (HALF + RADIUS)) / (box.max.y - box.min.y);
-  model.scale.setScalar(k);
-  model.position.set(-(box.min.x + box.max.x) / 2 * k, -(HALF + RADIUS) - box.min.y * k, -(box.min.z + box.max.z) / 2 * k);
   model.rotation.y = Math.PI; // model faces +z; player faces -z
   model.traverse((o) => { if (o.isMesh) o.castShadow = true; });
   player.add(model);
@@ -124,6 +119,27 @@ new GLTFLoader().load(import.meta.env.BASE_URL + 'models/hannibal.glb', (gltf) =
   const clip = (n) => mixer.clipAction(THREE.AnimationClip.findByName(gltf.animations, n));
   actions = { idle: clip('idle'), walk: clip('walk'), run: clip('run') };
   playState('idle');
+  // Fit to the capsule using the posed skinned vertices (Box3 on a skinned mesh is unreliable).
+  mixer.update(0.3); // finish the idle fade-in so the measured pose is the real one
+  const measure = () => {
+    player.updateMatrixWorld(true);
+    let lo = Infinity, hi = -Infinity;
+    const v = new THREE.Vector3();
+    model.traverse((o) => {
+      if (!o.isSkinnedMesh) return;
+      o.skeleton.update();
+      for (let i = 0; i < o.geometry.attributes.position.count; i++) {
+        o.getVertexPosition(i, v).applyMatrix4(o.matrixWorld);
+        player.worldToLocal(v);
+        lo = Math.min(lo, v.y); hi = Math.max(hi, v.y);
+      }
+    });
+    return [lo, hi];
+  };
+  let [lo, hi] = measure();
+  model.scale.multiplyScalar((2 * (HALF + RADIUS)) / (hi - lo));
+  [lo] = measure();
+  model.position.y -= lo + (HALF + RADIUS); // feet at the capsule bottom
 }, undefined, (e) => console.warn('Character model failed to load; using capsule', e));
 
 // ---- Input ----
@@ -227,4 +243,4 @@ renderer.setAnimationLoop(() => {
 });
 
 // Exposed for automated checks in the browser.
-window.__game = { getAnim: () => currentAction && currentAction.getClip().name, playerBody, keys, respawn, setYaw: (v) => { yaw = v; } };
+window.__game = { scene, player, getAnim: () => currentAction && currentAction.getClip().name, playerBody, keys, respawn, setYaw: (v) => { yaw = v; } };
