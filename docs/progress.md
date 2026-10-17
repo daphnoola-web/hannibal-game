@@ -15,7 +15,7 @@ Read this first in a new session, then `spike-plan.md` (the approved plan) and `
 - Deploy config ready: `vite.config.js` (base './') and `.github/workflows/deploy.yml` (builds and publishes to Pages on push to `main`). Build works (`npm run build`).
 
 ### Not done / blockers for Gate A
-1. **You: real fps** in regular Chrome with Windows Graphics settings → Chrome → "High performance" (RTX). Preview pane showed ~40 fps on the Intel iGPU, which is not a valid measure. Run `npm run dev`, open the URL, report the fps counter while walking/running.
+1. ~~**You: real fps**~~ **DONE 2026-10-17: 60 fps in Chrome on RTX 3070 (ANGLE NVIDIA D3D11), smooth, no sticking or falling through.** Original note: in regular Chrome with Windows Graphics settings → Chrome → "High performance" (RTX). Preview pane showed ~40 fps on the Intel iGPU, which is not a valid measure. Run `npm run dev`, open the URL, report the fps counter while walking/running.
 2. **You: create a GitHub account** (not done), then I create the repo, push, enable Pages and deploy (needs your OK to publish).
 3. Merge `setup/project-skeleton` into `main` before deploying (workflow triggers on `main`).
 4. Bundle is 4.8 MB (1.8 MB gzip), mostly Rapier's inlined wasm. Fine for the 150 MB cap.
