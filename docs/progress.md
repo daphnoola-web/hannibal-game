@@ -2,6 +2,9 @@
 
 Read this first in a new session, then `spike-plan.md` (the approved plan) and `decisions.md`.
 
+## ⚠ REMINDER: cancel Meshy Pro before it renews
+User subscribed to Meshy Pro (monthly, ₪30 first month, then ₪60/month) on 2026-10-17. Renewal is about 2026-11-17 (confirm exact date in Meshy → account → Subscription/Billing). Remind the user at the start of every session until they confirm it is cancelled. Download all needed files first (Hannibal GLB, building GLB).
+
 ## Status as of 2026-10-17 — Gate A PASSED, next: Gate B (asset pipeline)
 
 **Where we are:** Sessions 1-2 and Gate A are done. Live URL: https://daphnoola-web.github.io/hannibal-game/ (public repo `daphnoola-web/hannibal-game`, branch `main`, Pages deploys via GitHub Actions on every push to `main`).
