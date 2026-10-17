@@ -111,7 +111,7 @@ function pbr(name, rx, ry, tint = 0xffffff, sat = 1, gain = 1) {
   return mat;
 }
 const sandMat = pbr('sand', 8, 6);
-const wallMat = pbr('wall', 3, 2);
+const wallMat = pbr('wall', 4, 2, 0xf5d2a8, 0.5, 2.0);
 
 function addBox(x, y, z, w, h, d, mat, visible = true) {
   world.createCollider(RAPIER.ColliderDesc.cuboid(w / 2, h / 2, d / 2).setTranslation(x, y, z));
