@@ -1,18 +1,18 @@
 # Draft email to Meshy support (for the user to send)
 
+Cancellation question is answered by Meshy's help article (9992023): models made while subscribed stay yours and private after cancelling. Only the public-hosting question remains.
+
 **To:** support@meshy.ai
-**Subject:** Rights to models and rigged animations after cancelling Pro
+**Subject:** Publishing Pro-plan models in a free educational game
 
 Hello,
 
-I subscribed to Meshy Pro and am making a free, non-commercial educational browser game about Hannibal. I generate characters (including Meshy rigging and animation) and download them, and I publish the game with those models on a public website (GitHub Pages) and in a public GitHub repository.
+I am a Meshy Pro subscriber making a free, non-commercial educational browser game about Hannibal. I generate characters (with Meshy rigging and animation) and publish the game with those models on a public website (GitHub Pages) and in a public GitHub repository.
 
-Please confirm in writing:
+Your help articles say paid customers own their assets and that they stay mine after I cancel. Please confirm:
 
-1. Models I generate and download while subscribed to Pro are "Private & Customer owned". Does that ownership and my right to use them stay valid after I cancel the subscription?
-2. May I keep using, publishing and redistributing those models (and their rigging/animation clips) in my game after cancelling?
-3. Is it allowed to include the model files in a public repository so the game can be hosted?
-4. Do I need to credit Meshy?
+1. May I publish and redistribute those models, rigs and animation clips inside my game (public website and public repository)?
+2. Is credit to Meshy required on paid plans? (I plan to credit it anyway.)
 
 Thank you,
 Daphna

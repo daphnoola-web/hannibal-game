@@ -6,7 +6,7 @@ Read this first in a new session, then `game-plan.md` (the approved full-game pl
 - Live site (checked): models and HDRI are already published; Pages deploy of the Gate E commit succeeded. Older "publishing deferred" lines below are out of date.
 - Live load time (regular browser tab, not a fresh profile): JS 1.4 s, all assets ~2.5 s. Download is ~9 MB total.
 - Code split done (local, not pushed): main JS 180 KB gzip + separate Rapier chunk 1.67 MB gzip (Rapier ships its wasm inside, so it is the real bulk). Total download unchanged; benefit is browser caching when only game code changes. Preview runs with no console errors.
-- Meshy support email drafted: `meshy-support-email.md` (user to send).
+- Meshy rights: help article 9992023 says models made while subscribed stay owned/private after cancelling; paid users own assets (article 9992001). Only public-hosting/credit remain unconfirmed -> short email in `meshy-support-email.md` (user to send). Credit Meshy on the S18 credits screen anyway.
 - Next: S2 — `history-spine.md` and `cast.md` (see `game-plan.md`). Unpushed: plan commit + code split.
 - **Deadline:** the v1 cast (5 characters + Hannibal re-rig) must be generated in Meshy before ~17 Nov 2026, then cancel. Sessions S2–S4 must finish by ~14 Nov.
 
