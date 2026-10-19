@@ -1,6 +1,5 @@
 // Gate A graybox: third-person walk/run around a harbor street with Rapier collision.
 import * as THREE from 'three';
-import RAPIER from '@dimforge/rapier3d-compat';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
@@ -12,6 +11,8 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { createMission } from './mission.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 
+// Rapier (physics + wasm) is its own chunk, fetched while the rest of this file loads.
+const RAPIER = (await import('@dimforge/rapier3d-compat')).default;
 await RAPIER.init();
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });

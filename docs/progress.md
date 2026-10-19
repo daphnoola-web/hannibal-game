@@ -2,11 +2,13 @@
 
 Read this first in a new session, then `game-plan.md` (the approved full-game plan and v1 roadmap) and `decisions.md`. `spike-plan.md` is the finished spike, kept for reference.
 
-## Status as of 2026-10-19 — full-game plan approved, next: Milestone 0 (S1 loose ends)
-- Planning session done: scope, 10 chapters, v1 contents, asset strategy, research method and ~20-session roadmap are in `game-plan.md`.
-- Key changes: Mixamo is dropped (rig and animate in Meshy instead, customer-owned on paid plan); buildings will be code-built with CC0 textures.
+## Status as of 2026-10-19 — S1 (Milestone 0) done locally, awaiting publish OK; next: S2
+- Live site (checked): models and HDRI are already published; Pages deploy of the Gate E commit succeeded. Older "publishing deferred" lines below are out of date.
+- Live load time (regular browser tab, not a fresh profile): JS 1.4 s, all assets ~2.5 s. Download is ~9 MB total.
+- Code split done (local, not pushed): main JS 180 KB gzip + separate Rapier chunk 1.67 MB gzip (Rapier ships its wasm inside, so it is the real bulk). Total download unchanged; benefit is browser caching when only game code changes. Preview runs with no console errors.
+- Meshy support email drafted: `meshy-support-email.md` (user to send).
+- Next: S2 — `history-spine.md` and `cast.md` (see `game-plan.md`). Unpushed: plan commit + code split.
 - **Deadline:** the v1 cast (5 characters + Hannibal re-rig) must be generated in Meshy before ~17 Nov 2026, then cancel. Sessions S2–S4 must finish by ~14 Nov.
-- Note: the user says the models were already pushed to the public repo; the "publishing deferred" lines below are out of date. Confirm what is live in S1.
 
 ## ⚠ REMINDER: cancel Meshy Pro before it renews
 User subscribed to Meshy Pro (monthly, ₪30 first month, then ₪60/month) on 2026-10-17. Renewal is about 2026-11-17 (confirm exact date in Meshy → account → Subscription/Billing). Remind the user at the start of every session until they confirm it is cancelled. Download all needed files first (Hannibal GLB, building GLB).
