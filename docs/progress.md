@@ -2,6 +2,14 @@
 
 Read this first in a new session, then `game-plan.md` (the approved full-game plan and v1 roadmap) and `decisions.md`. `spike-plan.md` is the finished spike, kept for reference.
 
+## Status as of 2026-10-19 — S2 done (research drafted); next: S3 Meshy rig test
+- S2 wrote `history-spine.md` (221–202 events with Polybius/Livy section refs) and `cast.md` (5 characters + Hannibal re-rig, Meshy prompts, clothing evidence table).
+- Texts were read through a fetch tool that summarises pages, so section numbers and figures are marked "re-check"; nothing is "verified" until the user does the final read.
+- Clothing evidence is thin: only Polybius 3.114 (Spanish tunics with purple border) is solid. Punic civilian dress is unknown and labelled invented.
+- Epilogue (195–146 BCE) and some passages (Callicula in Polybius, Tarentum) are TODO.
+- Open: user may send the Meshy email (`meshy-support-email.md`); ask whether a library copy or purchase of Quesada Sanz/Nic Fields is OK.
+- **Deadline:** S3 and S4 (Meshy rig test, then cast generation, then cancel) must finish by ~14 Nov; Pro renews ~17 Nov.
+
 ## Status as of 2026-10-19 — S1 (Milestone 0) done locally, awaiting publish OK; next: S2
 - Live site (checked): models and HDRI are already published; Pages deploy of the Gate E commit succeeded. Older "publishing deferred" lines below are out of date.
 - Live load time (regular browser tab, not a fresh profile): JS 1.4 s, all assets ~2.5 s. Download is ~9 MB total.
