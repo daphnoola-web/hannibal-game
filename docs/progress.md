@@ -1,6 +1,12 @@
 # Progress log
 
-Read this first in a new session, then `spike-plan.md` (the approved plan) and `decisions.md`.
+Read this first in a new session, then `game-plan.md` (the approved full-game plan and v1 roadmap) and `decisions.md`. `spike-plan.md` is the finished spike, kept for reference.
+
+## Status as of 2026-10-19 — full-game plan approved, next: Milestone 0 (S1 loose ends)
+- Planning session done: scope, 10 chapters, v1 contents, asset strategy, research method and ~20-session roadmap are in `game-plan.md`.
+- Key changes: Mixamo is dropped (rig and animate in Meshy instead, customer-owned on paid plan); buildings will be code-built with CC0 textures.
+- **Deadline:** the v1 cast (5 characters + Hannibal re-rig) must be generated in Meshy before ~17 Nov 2026, then cancel. Sessions S2–S4 must finish by ~14 Nov.
+- Note: the user says the models were already pushed to the public repo; the "publishing deferred" lines below are out of date. Confirm what is live in S1.
 
 ## ⚠ REMINDER: cancel Meshy Pro before it renews
 User subscribed to Meshy Pro (monthly, ₪30 first month, then ₪60/month) on 2026-10-17. Renewal is about 2026-11-17 (confirm exact date in Meshy → account → Subscription/Billing). Remind the user at the start of every session until they confirm it is cancelled. Download all needed files first (Hannibal GLB, building GLB).

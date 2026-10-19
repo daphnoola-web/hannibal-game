@@ -2,6 +2,11 @@
 
 Newest first. Each entry: date, decision, why, evidence.
 
+## 2026-10-19 - Full-game plan approved
+- **Decision:** Scope, chapters, v1 contents and roadmap as in `game-plan.md` (22 decisions from the planning session). Highlights: Hannibal's career 221–202 BCE in 10 compact free-roam chapters; no melee in v1; fixed historical outcomes with 2–3 ways through each mission; gameplay graybox before art; v1 = the New Carthage chapter, finished.
+- **Assets:** Mixamo dropped because Adobe's community FAQ forbids free distribution of raw character/animation files and the repo is public. Characters are rigged and animated inside Meshy (paid-plan output is "Private & Customer owned" per meshy.ai/pricing). Buildings are code-built with CC0 textures.
+- **Evidence:** vendor pages read 2026-10-18 (meshy.ai/terms-of-use, meshy.ai/pricing, docs.meshy.ai rigging/animation; Adobe community Mixamo FAQ thread; the official Mixamo FAQ returned 403). Rights to Meshy outputs after cancelling are not stated: ask support@meshy.ai.
+
 ## 2026-10-17 - Gate E: spike decision record - GO (publishing deferred)
 **Recommendation: GO** on Three.js + Rapier + AI-generated assets for a full MVP, with conditions below.
 
