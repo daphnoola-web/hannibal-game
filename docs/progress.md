@@ -2,6 +2,12 @@
 
 Read this first in a new session, then `game-plan.md` (the approved full-game plan and v1 roadmap) and `decisions.md`. `spike-plan.md` is the finished spike, kept for reference.
 
+## Status as of 2026-10-20 — S3 mostly done: Meshy-rigged Hannibal in game; waiting for user's Chrome check
+- Meshy rig cost 10 credits; animations and downloads cost none. Download settings used: glb, Mixamo skeleton template, All Added, single file.
+- `public/models/hannibal.glb` is now the Meshy model (4.3 MB, 30.9k tris, base+normal+ORM textures at 1024) with clips idle, walk, run, crouch (Sneaky_Walk_inplace), talk_open, talk_passionate, wave. Script: `assets/rename-anims.mjs` (keeps/renames clips); then gltf-transform webp, resize 1024, prune. Raw GLB stays in `assets/raw/` (git-ignored).
+- Game only uses idle/walk/run so far; crouch and gestures are loaded but unused until S8/S9. Preview shows no console errors; fps in preview is not valid.
+- To do: user plays in Chrome; then delete Mixamo files (assets/raw Idle/Running/Walking FBX, assets/work Idle/Running/Walking, `assets/merge-anims.mjs`) and fix the `assets.csv` Hannibal row (still says Mixamo).
+
 ## Status as of 2026-10-19 — S2 done (research drafted); next: S3 Meshy rig test
 - S2 wrote `history-spine.md` (221–202 events with Polybius/Livy section refs) and `cast.md` (5 characters + Hannibal re-rig, Meshy prompts, clothing evidence table).
 - Texts were read through a fetch tool that summarises pages, so section numbers and figures are marked "re-check"; nothing is "verified" until the user does the final read.
