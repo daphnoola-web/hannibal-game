@@ -182,7 +182,7 @@ const nose = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.3), new THREE.Mesh
 nose.position.set(0, 0.5, -RADIUS);
 player.add(nose);
 
-// ---- Character model (Meshy AI model rigged and animated with Mixamo) ----
+// ---- Character model (Meshy AI model rigged and animated in Meshy) ----
 // Idle/walk/run clips crossfade on movement state; falls back to the capsule if loading fails.
 let npcMixer = null, mixer = null, actions = {}, currentAction = null;
 function playState(name) {
